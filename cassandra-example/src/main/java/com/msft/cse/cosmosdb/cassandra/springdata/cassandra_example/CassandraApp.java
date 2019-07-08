@@ -9,21 +9,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
-public class CassandraApp  implements CommandLineRunner{
+public class CassandraApp implements CommandLineRunner {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CassandraApp.class);
-  
-  @Autowired
-  BasicUserRepository customerRepository;
+	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraApp.class);
 
+	@Autowired
+	BasicUserRepository customerRepository;
 
+	public static void main(String[] args) {
+		SpringApplication.run(CassandraApp.class, args);
 
-  public static void main(String[] args) {
-	  SpringApplication.run(CassandraApp.class, args);
-    
-  }
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -31,26 +28,14 @@ public class CassandraApp  implements CommandLineRunner{
 		Person person = customerRepository.findUserByIdIn(personSaved.getId());
 		System.out.println(person.getName());
 		person = customerRepository.findUserByName(personSaved.getName());
-		LOGGER.info("Age:"+person.getAge());
+		System.out.println("Age:" + person.getAge());
+		System.out.println("Pic Length:" + person.getPict().limit());
+
 		customerRepository.save(Person.newPerson("Person2", 22));
 		List<Person> list = customerRepository.findUsersByNameStartsWith("Person");
 		for(Person p : list) {
 			System.out.println(p.getName());
 		}
-		
-//		Cluster cluster = Cluster.builder().addContactPoints("localhost").build();
-//	    Session session = cluster.connect("mykeyspace");
-//
-//	    CassandraOperations template = new CassandraTemplate(session);
-//
-//	    Person jonDoe = template.insert(Person.newPerson("Jon Doe", 40));
-//
-//	    LOGGER.info(template.selectOne(Query.query(Criteria.where("id").is(jonDoe.getId())), Person.class).getName());
-////	    LOGGER.info(template.selectOne(Query.query(Criteria.where("name").is(jonDoe.getName())), Person.class).getName());
-//
-//	    template.truncate(Person.class);
-//	    session.close();
-//	    cluster.close();
-		
+
 	}
 }

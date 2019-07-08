@@ -11,23 +11,22 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
 public class ClientApp {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraApp.class);
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraApp.class);
 
 	public static void main(String[] args) {
 		Cluster cluster = Cluster.builder().addContactPoints("localhost").build();
-	    Session session = cluster.connect("mykeyspace");
+		Session session = cluster.connect("mykeyspace");
 
-	    CassandraOperations template = new CassandraTemplate(session);
+		CassandraOperations template = new CassandraTemplate(session);
 
-	    Person jonDoe = template.insert(Person.newPerson("Jon Doe", 40));
+		Person jonDoe = template.insert(Person.newPerson("Jon Doe", 40));
 
-	    LOGGER.info(template.selectOne(Query.query(Criteria.where("id").is(jonDoe.getId())), Person.class).getName());
+		LOGGER.info(template.selectOne(Query.query(Criteria.where("id").is(jonDoe.getId())), Person.class).getName());
 
-	    template.truncate(Person.class);
-	    session.close();
-	    cluster.close();
+		template.truncate(Person.class);
+		session.close();
+		cluster.close();
 	}
-	
+
 }
