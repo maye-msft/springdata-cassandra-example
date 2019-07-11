@@ -20,6 +20,7 @@ import java.util.List;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.cassandra.repository.AllowFiltering;
 import org.springframework.data.cassandra.repository.Query;
+
 import org.springframework.data.repository.CrudRepository;
 
 /**
